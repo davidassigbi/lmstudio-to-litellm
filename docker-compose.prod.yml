@@ -1,0 +1,6 @@
+services:
+  lmstudio-to-litellm:
+    image: ${LMSTUDIO_LITELLM_IMAGE:-ghcr.io/davidassigbi/lmstudio-to-litellm:latest}
+    container_name: lmstudio-to-litellm
+    restart: unless-stopped
+    env_file: .env

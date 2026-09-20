@@ -1,0 +1,10 @@
+services:
+  lmstudio-to-litellm:
+    build: .
+    container_name: lmstudio-to-litellm
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - .:/app
+
+
