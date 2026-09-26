@@ -72,7 +72,14 @@ def parse_lms_models(payload):
         raise RuntimeError(
             "unexpected LM Studio /api/v1/models response: expected {'models': [...]}"
         )
-    return {v["key"]: v for v in payload["models"] if v["type"] == "llm"}
+    models = {v["key"]: v for v in payload["models"] if v["type"] == "llm"}
+    loaded_model_instances = {}
+    # instances of a loaded model are callable by an id that may differ from the model key;
+    # register each instance under its own id so it is callable from the API
+    for info in models.values():
+        for inst in info.get("loaded_instances", []):
+            loaded_model_instances[inst["id"]] = info
+    return {**models, **loaded_model_instances}
 
 
 def lmstudio_models():
